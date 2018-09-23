@@ -1,0 +1,29 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2018 The MathWorks, Inc.
+                   R2018a (9.4.0.813654) 64-bit (glnxa64)
+                             February 23, 2018
+
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+Starting parallel pool (parpool) using the 'local' profile ...
+[Warning: The system time zone setting, 'US/Eastern', does not specify a single
+time zone unambiguously. It will be treated as 'America/New_York'. See the <a
+href="matlab:doc('datetime.TimeZone')">datetime.TimeZone property</a> for
+details about specifying time zones.] 
+[> In verifyTimeZone (line 34)
+  In datetime (line 522)
+  In parallel.internal.cluster.DefaultProperties.getNewJobPropStruct (line 17)
+  In parallel.internal.cluster.CJSSupport/buildJob (line 158)
+  In parallel.cluster.CJSCluster/buildConcurrentJob (line 473)
+  In parallel.Cluster/createConcurrentJob (line 1022)
+  In parallel.internal.pool.InteractiveClient>iCreateCommunicatingJob (line 743)
+  In parallel.internal.pool.InteractiveClient/start (line 329)
+  In parallel.Pool>iStartClient (line 791)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)] 
+connected to 20 workers.
+Elapsed time is 10582.452038 seconds.

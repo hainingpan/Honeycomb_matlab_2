@@ -1,0 +1,53 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2018 The MathWorks, Inc.
+                   R2018a (9.4.0.813654) 64-bit (glnxa64)
+                             February 23, 2018
+
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+Starting parallel pool (parpool) using the 'local' profile ...
+[Warning: The system time zone setting, 'US/Eastern', does not specify a single
+time zone unambiguously. It will be treated as 'America/New_York'. See the <a
+href="matlab:doc('datetime.TimeZone')">datetime.TimeZone property</a> for
+details about specifying time zones.] 
+[> In verifyTimeZone (line 34)
+  In datetime (line 522)
+  In parallel.internal.cluster.DefaultProperties.getNewJobPropStruct (line 17)
+  In parallel.internal.cluster.CJSSupport/buildJob (line 158)
+  In parallel.cluster.CJSCluster/buildConcurrentJob (line 473)
+  In parallel.Cluster/createConcurrentJob (line 1022)
+  In parallel.internal.pool.InteractiveClient>iCreateCommunicatingJob (line 743)
+  In parallel.internal.pool.InteractiveClient/start (line 329)
+  In parallel.Pool>iStartClient (line 791)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)] 
+connected to 20 workers.
+{Error using um (line 43)
+There is a problem with the graphics driver or with this GPU device. Be sure
+that you have a <a
+href="matlab:web('http://www.mathworks.com/gpudevice','-browser')">supported
+GPU</a> and that the <a
+href="matlab:web('http://www.mathworks.com/gpudriver','-browser')">latest
+driver</a> is installed.
+
+Error in correct (line 52)
+parfor kxindex=1:Nk
+
+Error in wannier (line 14)
+cor=correct(n,parameters);
+
+Error in hoppingint (line 16)
+[F1,F1e]=wannier(n,XX,YY,rx1,ry1,parameters);
+
+Error in exec (line 2)
+[da,db,dc,dd,de]=hoppingint(1,parameters);
+
+Caused by:
+    The CUDA driver could not be loaded. The library name used was
+    'libcuda.so.1'. The error was:
+    libcuda.so.1: cannot open shared object file: No such file or directory
+} 
