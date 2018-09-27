@@ -1,61 +1,61 @@
-% %initial M_all and Uk
-% cellnumber=parameters.cellnumber;
-% d=parameters.d;
-% NN=parameters.NN;
-% 
-% b1=parameters.b1;
-% b2=parameters.b2;
-% q=2;
-% Nband=10;
-% bnor=b2(2)/q;
-% kset=cell(q^2,1);
-% pp=[3/4*sqrt(3*cellnumber)*d 3*sqrt(cellnumber)*d/4];
-% np=[-sqrt(3*cellnumber)*d/4 3*sqrt(cellnumber)*d/4];
-% nn=[-3/4*sqrt(3*cellnumber)*d -3/4*sqrt(cellnumber)*d];
-% pn=[sqrt(3*cellnumber)*d/4 -3*d/4*sqrt(cellnumber)];
-% x=linspace(nn(1),pp(1),NN);
-% y=linspace(nn(2),pp(2),NN);
-% [XX,YY]=meshgrid(x,y);
-% wb=1/(3*bnor^2);
-% 
-% for i1=1:q
-%     for i2=1:q
-%         index1=(2*i1-q-1)/(2*q);
-%         index2=(2*i2-q-1)/(2*q);
-%         kset{(i1-1)*q+i2}=index1*b1+index2*b2;
-%     end
-% end
-% bnset={bnor*[0,1],bnor*[sqrt(3)/2,1/2],bnor*[sqrt(3)/2,-1/2],bnor*[0,-1],bnor*[-sqrt(3)/2,-1/2],bnor*[-sqrt(3)/2,1/2]};
-% M_all=cell(q^2,6);
-% parfor kindex=1:q^2   
-%     for bindex=1:6
-%         kx=kset{kindex}(1);
-%         ky=kset{kindex}(2);
-%         bnx=bnset{bindex}(1);
-%         bny=bnset{bindex}(2);        
-%         ubra=cell(Nband,1);
-%         for i=1:Nband
-%             ubra{i}=um(i,kx,ky,XX,YY,parameters);
-%         end
-%         uket=cell(Nband,1);
-%         for i=1:Nband
-%             uket{i}=um(i,kx+bnx,ky+bny,XX,YY,parameters);
-%         end
-%         inner_u=zeros(Nband);
-%         for i=1:Nband
-%             for j=1:Nband
-%                 intu=conj(ubra{i}).*uket{j};
-%                 inner_u(i,j)=trapz(y,trapz(x,intu,2));
-%             end
-%         end
-%         M_all{kindex,bindex}=inner_u;
-%     end
-% end
+%initial M_all and Uk
+cellnumber=parameters.cellnumber;
+d=parameters.d;
+NN=parameters.NN;
 
-% Uk=cell(q^2,1);
-% for kindex=1:q^2
-%     Uk{kindex}=eye(Nband);
-% end
+b1=parameters.b1;
+b2=parameters.b2;
+q=2;
+Nband=10;
+bnor=b2(2)/q;
+kset=cell(q^2,1);
+pp=[3/4*sqrt(3*cellnumber)*d 3*sqrt(cellnumber)*d/4];
+np=[-sqrt(3*cellnumber)*d/4 3*sqrt(cellnumber)*d/4];
+nn=[-3/4*sqrt(3*cellnumber)*d -3/4*sqrt(cellnumber)*d];
+pn=[sqrt(3*cellnumber)*d/4 -3*d/4*sqrt(cellnumber)];
+x=linspace(nn(1),pp(1),NN);
+y=linspace(nn(2),pp(2),NN);
+[XX,YY]=meshgrid(x,y);
+wb=1/(3*bnor^2);
+
+for i1=1:q
+    for i2=1:q
+        index1=(2*i1-q-1)/(2*q);
+        index2=(2*i2-q-1)/(2*q);
+        kset{(i1-1)*q+i2}=index1*b1+index2*b2;
+    end
+end
+bnset={bnor*[0,1],bnor*[sqrt(3)/2,1/2],bnor*[sqrt(3)/2,-1/2],bnor*[0,-1],bnor*[-sqrt(3)/2,-1/2],bnor*[-sqrt(3)/2,1/2]};
+M_all=cell(q^2,6);
+parfor kindex=1:q^2   
+    for bindex=1:6
+        kx=kset{kindex}(1);
+        ky=kset{kindex}(2);
+        bnx=bnset{bindex}(1);
+        bny=bnset{bindex}(2);        
+        ubra=cell(Nband,1);
+        for i=1:Nband
+            ubra{i}=um(i,kx,ky,XX,YY,parameters);
+        end
+        uket=cell(Nband,1);
+        for i=1:Nband
+            uket{i}=um(i,kx+bnx,ky+bny,XX,YY,parameters);
+        end
+        inner_u=zeros(Nband);
+        for i=1:Nband
+            for j=1:Nband
+                intu=conj(ubra{i}).*uket{j};
+                inner_u(i,j)=trapz(y,trapz(x,intu,2));
+            end
+        end
+        M_all{kindex,bindex}=inner_u;
+    end
+end
+
+Uk=cell(q^2,1);
+for kindex=1:q^2
+    Uk{kindex}=eye(Nband);
+end
 
 for iter=1:1000    
 %update rbar

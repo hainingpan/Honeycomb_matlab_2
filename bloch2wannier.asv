@@ -1,0 +1,8 @@
+function bloch2wannier(Uk,kset,parameters)
+pp=[3/4*sqrt(3*cellnumber)*d 3*sqrt(cellnumber)*d/4];
+np=[-sqrt(3*cellnumber)*d/4 3*sqrt(cellnumber)*d/4];
+nn=[-3/4*sqrt(3*cellnumber)*d -3/4*sqrt(cellnumber)*d];
+pn=[sqrt(3*cellnumber)*d/4 -3*d/4*sqrt(cellnumber)];
+x=linspace(nn(1),pp(1),NN);
+y=linspace(nn(2),pp(2),NN);
+[XX,YY]=meshgrid(x,y);
