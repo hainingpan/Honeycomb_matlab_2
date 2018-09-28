@@ -5,7 +5,7 @@ NN=parameters.NN;
 
 b1=parameters.b1;
 b2=parameters.b2;
-q=2;
+q=10;
 Nband=10;
 bnor=b2(2)/q;
 kset=cell(q^2,1);
@@ -159,6 +159,10 @@ for iter=1:1000
             M_all{kindex,bindex}=Uk{kindex}'*M_all{kindex,bindex}*Uk{linindex};
         end
     end
+    wf=bloch2wannier(Uk,kset,0,0,parameters);
+    surf(XX(1,:),YY(:,1),abs(wf(:,:,1)),'edgecolor','none');view(2);
+    disp(omega(wf(1),0,0,parameters));
+    
 end
 % imagesc(real(Uk{1}));
 %     caxis([-1,1])
