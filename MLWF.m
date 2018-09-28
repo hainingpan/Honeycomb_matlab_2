@@ -5,7 +5,7 @@ NN=parameters.NN;
 
 b1=parameters.b1;
 b2=parameters.b2;
-q=10;
+q=4;
 Nband=10;
 bnor=b2(2)/q;
 kset=cell(q^2,1);
@@ -27,24 +27,27 @@ for i1=1:q
 end
 bnset={bnor*[0,1],bnor*[sqrt(3)/2,1/2],bnor*[sqrt(3)/2,-1/2],bnor*[0,-1],bnor*[-sqrt(3)/2,-1/2],bnor*[-sqrt(3)/2,1/2]};
 M_all=cell(q^2,6);
-parfor kindex=1:q^2   
+for kindex=1:q^2   
     for bindex=1:6
         kx=kset{kindex}(1);
         ky=kset{kindex}(2);
         bnx=bnset{bindex}(1);
         bny=bnset{bindex}(2);        
-        ubra=cell(Nband,1);
-        for i=1:Nband
-            ubra{i}=um(i,kx,ky,XX,YY,parameters);
-        end
-        uket=cell(Nband,1);
-        for i=1:Nband
-            uket{i}=um(i,kx+bnx,ky+bny,XX,YY,parameters);
-        end
+%         ubra=cell(Nband,1);
+%         for i=1:Nband
+%             ubra{i}=um(i,kx,ky,XX,YY,parameters);
+%         end
+        ubra=uaup(Nband,kx,ky,XX,YY,parameters);
+%         uket=cell(Nband,1);
+%         for i=1:Nband
+%             uket{i}=um(i,kx+bnx,ky+bny,XX,YY,parameters);
+%         end
+        uket=uaup(Nband,kx+bnx,ky+bny,XX,YY,parameters);
         inner_u=zeros(Nband);
         for i=1:Nband
             for j=1:Nband
-                intu=conj(ubra{i}).*uket{j};
+%                 intu=conj(ubra{i}).*uket{j};
+                intu=conj(ubra(:,:,i)).*uket(:,:,j);                
                 inner_u(i,j)=trapz(y,trapz(x,intu,2));
             end
         end
@@ -57,7 +60,8 @@ for kindex=1:q^2
     Uk{kindex}=eye(Nband);
 end
 
-for iter=1:1000    
+
+for iter=1:1000
 %update rbar
     
     rbar=zeros(Nband,2);
@@ -118,7 +122,7 @@ for iter=1:1000
     %update dW
     
     dW=cell(q^2,1);
-    epsilon=1;
+    epsilon=0.001;
     for kindex=1:q^2
         dW{kindex}=epsilon*G{kindex};
     end
@@ -127,6 +131,9 @@ for iter=1:1000
     
     for kindex=1:q^2
         Uk{kindex}=Uk{kindex}*expm(dW{kindex});
+%         if(Uk{kindex}'*Uk{kindex}~=eye(Nband))
+%             error("non unitary");
+%         end
     end
     
     %update M_all
@@ -160,13 +167,14 @@ for iter=1:1000
         end
     end
     wf=bloch2wannier(Uk,kset,0,0,parameters);
-    surf(XX(1,:),YY(:,1),abs(wf(:,:,1)),'edgecolor','none');view(2);
-    disp(omega(wf(1),0,0,parameters));
-    
+    surf(XX(1,:),YY(:,1),abs(wf(:,:,1)),'edgecolor','none');view(2);colorbar
+    disp(omega(wf(:,:,1),0,0,parameters));    
 end
 % imagesc(real(Uk{1}));
 %     caxis([-1,1])
 %     colorbar;
+
+
     
                 
                 
