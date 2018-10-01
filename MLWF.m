@@ -5,7 +5,7 @@ NN=parameters.NN;
 
 b1=parameters.b1;
 b2=parameters.b2;
-q=4;
+q=10;
 Nband=10;
 bnor=b2(2)/q;
 kset=cell(q^2,1);
@@ -27,7 +27,7 @@ for i1=1:q
 end
 bnset={bnor*[0,1],bnor*[sqrt(3)/2,1/2],bnor*[sqrt(3)/2,-1/2],bnor*[0,-1],bnor*[-sqrt(3)/2,-1/2],bnor*[-sqrt(3)/2,1/2]};
 M_all=cell(q^2,6);
-for kindex=1:q^2   
+parfor kindex=1:q^2   
     for bindex=1:6
         kx=kset{kindex}(1);
         ky=kset{kindex}(2);
@@ -65,7 +65,7 @@ for iter=1:1000
 %update rbar
     
     rbar=zeros(Nband,2);
-    for kindex=1:q^2
+    parfor kindex=1:q^2
         for bindex=1:6
             rbar=rbar+wb*imag(log(diag(M_all{kindex,bindex})))*bnset{bindex};
         end
@@ -75,7 +75,7 @@ for iter=1:1000
     %update qkb
     
     qkb=cell(q^2,6);
-    for kindex=1:q^2
+    parfor kindex=1:q^2
         for bindex=1:6
             qkb{kindex,bindex}=imag(log(diag(M_all{kindex,bindex})))+sum(repmat(bnset{bindex},[Nband,1]).*rbar,2);
         end
@@ -84,7 +84,7 @@ for iter=1:1000
     %update Rkb
     
     Rkb=cell(q^2,6);
-    for kindex=1:q^2
+    parfor kindex=1:q^2
         for bindex=1:6
             Rkb{kindex,bindex}=M_all{kindex,bindex}.*repmat(diag(M_all{kindex,bindex})',[Nband,1]);
         end
@@ -93,7 +93,7 @@ for iter=1:1000
     %update Rtkb
     
     Rtkb=cell(q^2,6);
-    for kindex=1:q^2
+    parfor kindex=1:q^2
         for bindex=1:6
             Rtkb{kindex,bindex}=M_all{kindex,bindex}./repmat(diag(M_all{kindex,bindex}).',[Nband,1]);
         end
@@ -102,7 +102,7 @@ for iter=1:1000
     %update Tkb
     
     Tkb=cell(q^2,6);
-    for kindex=1:q^2
+    parfor kindex=1:q^2
         for bindex=1:6
             Tkb{kindex,bindex}=Rtkb{kindex,bindex}.*repmat(qkb{kindex,bindex}.',[Nband,1]);
         end
@@ -111,7 +111,7 @@ for iter=1:1000
     %update G
    
     G=cell(q^2,1);
-    for kindex=1:q^2
+    parfor kindex=1:q^2
         G{kindex}=0;
         for bindex=1:6
             G{kindex}=G{kindex}+wb*((Rkb{kindex,bindex}-Rkb{kindex,bindex}')/2-(Tkb{kindex,bindex}+Tkb{kindex,bindex}')/(2*1i));        
@@ -122,14 +122,14 @@ for iter=1:1000
     %update dW
     
     dW=cell(q^2,1);
-    epsilon=0.001;
-    for kindex=1:q^2
+    epsilon=0.01;
+    parfor kindex=1:q^2
         dW{kindex}=epsilon*G{kindex};
     end
 
     %update Uk
     
-    for kindex=1:q^2
+    parfor kindex=1:q^2
         Uk{kindex}=Uk{kindex}*expm(dW{kindex});
 %         if(Uk{kindex}'*Uk{kindex}~=eye(Nband))
 %             error("non unitary");
@@ -138,7 +138,7 @@ for iter=1:1000
     
     %update M_all
     
-    for kindex=1:q^2
+    parfor kindex=1:q^2
         for bindex=1:6
             kxindex=ceil(kindex/q);
             kyindex=mod((kindex-1),q)+1;
@@ -166,9 +166,11 @@ for iter=1:1000
             M_all{kindex,bindex}=Uk{kindex}'*M_all{kindex,bindex}*Uk{linindex};
         end
     end
-    wf=bloch2wannier(Uk,kset,0,0,parameters);
-    surf(XX(1,:),YY(:,1),abs(wf(:,:,1)),'edgecolor','none');view(2);colorbar
-    disp(omega(wf(:,:,1),0,0,parameters));    
+    wf=bloch2wannier(Uk,kset,0,2*d,parameters);
+    surf(XX(1,:),YY(:,1),abs(wf(:,:,1)),'edgecolor','none');view(2);colorbar;
+    title(real(omega(wf(:,:,1),parameters)));
+    drawnow;
+%     disp(omega(wf(:,:,1),parameters));    
 end
 % imagesc(real(Uk{1}));
 %     caxis([-1,1])
