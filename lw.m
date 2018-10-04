@@ -11,7 +11,8 @@ b=(xr*yc)/(-xcr + xr);
 gammak=parameters.gammakraw/d;
 gamma=parameters.gamma;
 %%
-mband=100;
+% mband=100;
+mband=2*(2*Nmax+1)^2;
 
 %%
 tot=0;
