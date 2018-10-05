@@ -18,8 +18,8 @@ parfor kindex=1:length(kset)
 %     for nindex=1:Nband
 %         psi(:,:,nindex)=psim(nindex,kx,ky,XX,YY,parameters);
 %     end
-    psi=psiaup(Nband,kx,ky,XX,YY,parameters);
-    re=re+reshape((Uk{kindex}*reshape(psi,[],Nband).').',NN,NN,Nband).*exp(-1i*[kx,ky]*[rx,ry]');
+    psi=psiaup(Nband,kx,ky,XX,YY,parameters).*((real(uup(Nband,kx,ky,0,0,parameters))<0)*(-1)+(real(uup(Nband,kx,ky,0,0,parameters))>=0));
+    re=re+reshape((Uk{kindex}.'*reshape(psi,[],Nband).').',NN,NN,Nband).*exp(-1i*[kx,ky]*[rx,ry]');
 end
 % R=conj(re).*re;
 % intR=trapz(y,trapz(x,R,2));

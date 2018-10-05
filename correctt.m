@@ -20,8 +20,8 @@ parfor kxindex=1:Nk
         ky=kyrange(kyindex);
         ttemp=um(n,kx,ky,rx,ry,parameters);
 %         ttemp=um(n,kx,ky,rx,ry,parameters).*(~((abs(kx)<=xr)&(abs(kx)>=xcr)&(abs(ky)>=k*abs(kx)+b))); 
-%         ss(kyindex,kxindex)=ttemp;
-      ss(kyindex,kxindex)=cor(kyindex,kxindex)*ttemp; 
+        ss(kyindex,kxindex)=ttemp;
+%       ss(kyindex,kxindex)=cor(kyindex,kxindex)*ttemp; 
     end
 end
 re=real(ss);
@@ -37,18 +37,18 @@ y=linspace(-yc,yc,Nk);
 % colorbar
 % title(strcat('real of wf in k-space @n=',num2str(n)));
 % 
-% figure
-% surf(x,y,im,'FaceColor','interp','EdgeColor','none','FaceLighting','gouraud');
-% view(2)
-% colorbar
-% title(strcat('imag of wf in k-space @n=',num2str(n)));
-
-%% save modulus
-ftemp=figure;
-surf(x,y,re,'FaceColor','interp','EdgeColor','none','FaceLighting','gouraud');
+figure
+surf(x,y,im,'FaceColor','interp','EdgeColor','none','FaceLighting','gouraud');
 view(2)
 colorbar
-title(strcat('modulus of wf in k-space @n=',num2str(n)));
+title(strcat('imag of wf in k-space @n=',num2str(n)));
+
+%% save modulus
+% ftemp=figure;
+% surf(x,y,re,'FaceColor','interp','EdgeColor','none','FaceLighting','gouraud');
+% view(2)
+% colorbar
+% title(strcat('modulus of wf in k-space @n=',num2str(n)));
 % savefig(ftemp,strcat('.\energy\pk\',num2str(n),'.fig'));
 
 end
