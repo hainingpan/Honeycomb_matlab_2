@@ -4,8 +4,8 @@
 % plot(enlist,squeeze(sum(map,[1,2])))
 % % surf(klist,enlist,squeeze(map(:,50,:))','edgecolor','none');view(2)
 d=parameters.d;
-den=100;
-eden=200;
+den=400;
+eden=400;
 enlist=linspace(-0.02,0.015,eden);
 klist=linspace(-2*pi*6/(3*d),2*pi*6/(3*d),den);
 intensitymap=zeros(den,eden);    
