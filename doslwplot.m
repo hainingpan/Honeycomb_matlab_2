@@ -13,4 +13,5 @@ intensitymap=zeros(den,eden);
      ky=klist(ii);  
 %      kx=klist(ii);
      intensitymap(ii,:)=lw(0,ky,enlist,parameters);
-end
+ end
+save('g0.dat','intensitymap','-ascii')
