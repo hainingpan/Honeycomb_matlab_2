@@ -23,7 +23,7 @@ for kk=1:length(KX(:))
 %     [evalue,evector]=energy(kx0,ky0,parameters);
     [evalue,evector]=energycp(kx0,ky0,parameters);
     evalueset=(abs(evector(1:(2*Nmax+1)^2,1:mband)).^2);
-    [epsilonmat,evaluemat]=meshgrid(epsilon,evalue(1:mband));
+    [epsilonmat,evaluemat]=meshgrid(epsilon,evalue(1:mband)); 
     lorentz=1./((epsilonmat-evaluemat).^2+gamma^2);    
 
 %     if (~((abs(kx0)<=xr)&(abs(kx0)>=xcr)&(abs(ky0)>=k*abs(kx0)+b)))
