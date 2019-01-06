@@ -1,7 +1,7 @@
-% Entrance
+clc% Entrance
 % global a d h mu hbar e c Nmax cellnumber b1 b2 areadiamond coarr tmp offdiag NN;
 % Parameters
-parameters=struct('a',5.076,'d',15.5417,'h',0.0046053,'mu',18.396,'hbar',1,'e',1,'c',1,'g',0e-3,'mx',400*3.6*5.11,'eph',0,'eexc',0,'dtn',-14.58700084/1000,'Nmax',5,'cellnumber',400,'NN',100,'Nk',100,'gammakraw',2.74E-01*0.5,'gamma',1.87E-05);
+parameters=struct('a',5.076,'d',15.5417,'h',0.0046053,'mu',18.396,'hbar',1,'e',1,'c',1,'g',0e-3,'mx',400*3.6*5.11,'eph',0,'eexc',0,'dtn',-14.58700084/1000,'Nmax',5,'cellnumber',400,'NN',200,'Nk',200,'gammakraw',2.74E-01*0.5,'gamma',1.87E-05);
 
 parameters.b1=2*pi/(parameters.d)*[1/sqrt(3) -1/3];
 parameters.b2=2*pi/(parameters.d)*[0 2/3];
