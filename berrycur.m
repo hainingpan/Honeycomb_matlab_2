@@ -54,3 +54,5 @@ for xindex=1:Nk
     end
 end
 % end 
+save('wf.mat','wf');
+save('curvature.mat','curvature');
